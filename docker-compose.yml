@@ -6,6 +6,8 @@ services:
     build:
       context: ./container
       dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
     entrypoint: 'python3 main.py'
     volumes:
       - './src/:/usr/src/myapp'

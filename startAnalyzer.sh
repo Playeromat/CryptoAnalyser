@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose up crypto_analyser
+docker-compose up -d crypto_analyser && docker attach crypto_analyser
