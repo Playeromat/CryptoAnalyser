@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  crypto_analyser:
+    container_name: crypto_analyser
+    build:
+      context: ./container
+      dockerfile: Dockerfile
+    entrypoint: 'python3 main.py'
+    volumes:
+      - './src/:/usr/src/myapp'
+    working_dir: /usr/src/myapp
+
+  crypto_analyser_mariadb:
+    container_name: crypto_analyser_mariadb
+    image: mariadb:10.8
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=cryptoanalyser
+      - MYSQL_DATABASE=crypto_analyser
+      - MYSQL_USER=crypto_analyser
+      - MYSQL_PASSWORD=crypto_analyser
+    ports: # server -> container
+      - '4306:3306'
+    volumes:
+      - './mysql/data:/var/lib/mysql'
+    command: [ --max-allowed-packet=1073741824, --skip-innodb-read-only-compressed ]
