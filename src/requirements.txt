@@ -1,0 +1,4 @@
+ccxt==1.75.13
+SQLAlchemy==1.4.32
+PyMySQL==1.0.2
+simple-term-menu==1.4.1

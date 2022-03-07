@@ -4,8 +4,8 @@ services:
   crypto_analyser:
     container_name: crypto_analyser
     build:
-      context: ./container
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./container/Dockerfile
     stdin_open: true
     tty: true
     entrypoint: 'python3 main.py'
