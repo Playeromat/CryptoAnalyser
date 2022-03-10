@@ -1,6 +1,7 @@
 import sqlalchemy
 import hashlib
 
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 
@@ -14,7 +15,6 @@ class OHLCV(Base):
     exchange = sqlalchemy.Column(sqlalchemy.String(length=100))
     symbol = sqlalchemy.Column(sqlalchemy.String(length=100))
     timeframe = sqlalchemy.Column(sqlalchemy.String(length=100))
-    timestamp = sqlalchemy.Column(sqlalchemy.BIGINT)
     open = sqlalchemy.Column(sqlalchemy.Float)
     high = sqlalchemy.Column(sqlalchemy.Float)
     low = sqlalchemy.Column(sqlalchemy.Float)
@@ -22,6 +22,8 @@ class OHLCV(Base):
     volume = sqlalchemy.Column(sqlalchemy.Float)
     volatility = sqlalchemy.Column(sqlalchemy.Float)
     candle_size = sqlalchemy.Column(sqlalchemy.Float)
+    timestamp = sqlalchemy.Column(sqlalchemy.BIGINT)
+    time_readable = sqlalchemy.Column(sqlalchemy.String(length=100))
 
     def prepare(self):
         hash_string = self.exchange + self.symbol + self.timeframe + str(self.timestamp)
@@ -29,6 +31,7 @@ class OHLCV(Base):
 
         self.volatility = abs(self.high - self.low)
         self.candle_size = abs(self.close - self.open)
+        self.time_readable = datetime.utcfromtimestamp(self.timestamp / 1000).strftime('%Y-%m-%d %H:%M:%S')
 
 
 Base.metadata.create_all(
