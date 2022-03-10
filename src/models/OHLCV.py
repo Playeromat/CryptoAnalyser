@@ -1,19 +1,36 @@
+import sqlalchemy
 import hashlib
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base
 
-class OHLCV:
+Base = declarative_base()
 
-    def __init__(self, exchange, symbol, timeframe, timestamp, open, high, low, close, volume):
-        self.exchange = exchange
-        self.symbol = symbol
-        self.timeframe = timeframe
-        self.timestamp = timestamp
-        self.open = open
-        self.high = high
-        self.low = low
-        self.close = close
-        self.volume = volume
 
-        hash_string = exchange + symbol + timeframe + str(timestamp)
+class OHLCV(Base):
+    __tablename__ = 'ftx'
+    id = sqlalchemy.Column(sqlalchemy.INT, primary_key=True, unique=True, autoincrement=True, index=True)
+    hash = sqlalchemy.Column(sqlalchemy.String(length=100), unique=True)
+    exchange = sqlalchemy.Column(sqlalchemy.String(length=100))
+    symbol = sqlalchemy.Column(sqlalchemy.String(length=100))
+    timeframe = sqlalchemy.Column(sqlalchemy.String(length=100))
+    timestamp = sqlalchemy.Column(sqlalchemy.BIGINT)
+    open = sqlalchemy.Column(sqlalchemy.Float)
+    high = sqlalchemy.Column(sqlalchemy.Float)
+    low = sqlalchemy.Column(sqlalchemy.Float)
+    close = sqlalchemy.Column(sqlalchemy.Float)
+    volume = sqlalchemy.Column(sqlalchemy.Float)
+    volatility = sqlalchemy.Column(sqlalchemy.Float)
+    candle_size = sqlalchemy.Column(sqlalchemy.Float)
 
-        self.id = hashlib.md5(hash_string.encode()).hexdigest()
+    def prepare(self):
+        hash_string = self.exchange + self.symbol + self.timeframe + str(self.timestamp)
+        self.hash = hashlib.md5(hash_string.encode()).hexdigest()
+
+        self.volatility = abs(self.high - self.low)
+        self.candle_size = abs(self.close - self.open)
+
+
+Base.metadata.create_all(
+    create_engine("mysql+pymysql://crypto_analyser:crypto_analyser@crypto_analyser_mariadb:3306/crypto_analyser", echo=True, future=True)
+)
