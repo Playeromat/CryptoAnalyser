@@ -2,7 +2,7 @@ import ccxt
 from models.OHLCV import OHLCV
 
 
-class CcxtTesting:
+class FtxController:
     OHLCVS = []
 
     def __init__(self):
