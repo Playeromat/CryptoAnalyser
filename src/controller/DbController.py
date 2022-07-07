@@ -15,13 +15,13 @@ class DbController:
         base = declarative_base()
         base.metadata.create_all(self.engine)
 
-    def add_candle(self, Candle):
-        Candle.prepare()
-        self.session.add(Candle)
+    def add_candle(self, candle):
+        candle.prepare()
+        self.session.add(candle)
 
     def get_candles(self):
         candles = []
-        for candle in self.session.execute(select(Candle)):
+        for candle in self.session.query(Candle):
             candles.append(candle)
 
         return candles
