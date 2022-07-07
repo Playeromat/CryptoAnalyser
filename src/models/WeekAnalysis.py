@@ -25,8 +25,10 @@ class WeekAnalysis(Base):
     weekly_low = Column(Float)
     weekday_high = Column(String(length=16))
     weekday_low = Column(String(length=16))
-    weekday_range_high = Column(String(length=16))
-    weekday_range_low = Column(String(length=16))
+    weekday_volatility_high = Column(String(length=16))
+    weekday_volatility_low = Column(String(length=16))
+    weekday_volume_high = Column(String(length=16))
+    weekday_volume_low = Column(String(length=16))
     trend = Column(String(length=16))
 
     def prepare(self):
