@@ -3,7 +3,7 @@ from controller.DbController import DbController
 from UserInterface import UserInterface
 
 
-class Analyzer:
+class Analyser:
 
     def __init__(self):
         self.ftx_controller = FtxController()

@@ -1,7 +1,7 @@
-from Analyzer import Analyzer
-from controller.analyzer.WeekAnalyzer import WeekAnalyzer
+from Analyser import Analyser
+from controller.analyser.WeekAnalyser import WeekAnalyser
 
-analyzer = Analyzer()
-week_analyzer = WeekAnalyzer()
+analyser = Analyser()
+week_analyser = WeekAnalyser()
 
-analyzer.run()
+week_analyser.run()
