@@ -8,7 +8,7 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 
-class OHLCV(Base):
+class Candle(Base):
     __tablename__ = 'ftx'
     id = sqlalchemy.Column(sqlalchemy.INT, primary_key=True, unique=True, autoincrement=True, index=True)
     hash = sqlalchemy.Column(sqlalchemy.String(length=100), unique=True)

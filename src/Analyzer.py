@@ -21,7 +21,7 @@ class Analyzer:
             for user_input_timeframe in user_input_timeframes:
                 self.ftx_controller.fetch_data(markets[user_input_market], timeframes[user_input_timeframe])
 
-        for OHLCV in self.ftx_controller.OHLCVS:
-            self.db_controller.add_ohlcv(OHLCV)
+        for candle in self.ftx_controller.candles:
+            self.db_controller.add_candle(candle)
 
         self.db_controller.commit()

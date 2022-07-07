@@ -1,8 +1,7 @@
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker, declarative_base
-from models.OHLCV import OHLCV
+from models.Candle import Candle
 
 
 class DbController:
@@ -16,16 +15,16 @@ class DbController:
         base = declarative_base()
         base.metadata.create_all(self.engine)
 
-    def add_ohlcv(self, OHLCV):
-        OHLCV.prepare()
-        self.session.add(OHLCV)
+    def add_candle(self, Candle):
+        Candle.prepare()
+        self.session.add(Candle)
 
-    def get_ohlcvs(self):
-        ohlcvs = []
-        for ohlcv in self.session.execute(select(OHLCV)):
-            ohlcvs.append(ohlcv)
+    def get_candles(self):
+        candles = []
+        for candle in self.session.execute(select(Candle)):
+            candles.append(candle)
 
-        return ohlcvs
+        return candles
 
     def commit(self):
         self.session.commit()

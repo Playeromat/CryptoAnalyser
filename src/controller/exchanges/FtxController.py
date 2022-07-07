@@ -1,9 +1,9 @@
 import ccxt
-from models.OHLCV import OHLCV
+from models.Candle import Candle
 
 
 class FtxController:
-    OHLCVS = []
+    candles = []
 
     def __init__(self):
         self.ftx = ccxt.ftx()
@@ -12,18 +12,18 @@ class FtxController:
         self.timeframes = self.ftx.timeframes
 
     def fetch_data(self, symbol, timeframe):
-        ohlcvs = self.ftx.fetch_ohlcv(symbol, timeframe=timeframe)
+        candles = self.ftx.fetch_ohlcv(symbol, timeframe=timeframe)
 
-        for ohlcv in ohlcvs:
-            timestamp = ohlcv[0]
-            open = ohlcv[1]
-            high = ohlcv[2]
-            low = ohlcv[3]
-            close = ohlcv[4]
-            volume = ohlcv[5]
+        for candle in candles:
+            timestamp = candle[0]
+            open = candle[1]
+            high = candle[2]
+            low = candle[3]
+            close = candle[4]
+            volume = candle[5]
 
-            self.OHLCVS.append(
-                OHLCV(
+            self.candles.append(
+                Candle(
                     exchange=self.exchange,
                     symbol=symbol,
                     timeframe=timeframe,
