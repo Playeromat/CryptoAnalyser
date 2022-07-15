@@ -2,12 +2,15 @@ from sqlalchemy import create_engine
 from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker, declarative_base
 from models.Candle import Candle
+import sqlalchemy
 
 
 class DbController:
 
     def __init__(self):
-        self.engine = create_engine("mysql+pymysql://crypto_analyser:crypto_analyser@crypto_analyser_mariadb:3306/crypto_analyser", echo=True, future=True)
+        self.engine = create_engine(
+            "mysql+pymysql://crypto_analyser:crypto_analyser@crypto_analyser_mariadb:3306/crypto_analyser", echo=True,
+            future=True)
 
         session = sessionmaker(bind=self.engine)
         self.session = session()
@@ -15,16 +18,24 @@ class DbController:
         base = declarative_base()
         base.metadata.create_all(self.engine)
 
-    def add_candle(self, candle):
-        candle.prepare()
-        self.session.add(candle)
+    # TODO: On duplicate key Update
+    def add_entry(self, entry):
+        entry.prepare()
+        self.session.add(entry)
 
-    def get_candles(self):
-        candles = []
-        for candle in self.session.query(Candle):
-            candles.append(candle)
+    def get_candles(self, exchange=None, symbol=None, timeframe=None):
+        query = self.session.query(Candle)
 
-        return candles
+        if exchange is not None:
+            query = query.filter(Candle.exchange == exchange)
+
+        if symbol is not None:
+            query = query.filter(Candle.symbol == symbol)
+
+        if timeframe is not None:
+            query = query.filter(Candle.timeframe == timeframe)
+
+        return query.all()
 
     def commit(self):
         self.session.commit()

@@ -1,9 +1,14 @@
 from Analyser import Analyser
 from controller.analyser.WeekAnalyser import WeekAnalyser
+from controller.analyser.MonthAnalyser import MonthAnalyser
 
-import ccxt
 
 analyser = Analyser()
 week_analyser = WeekAnalyser()
+month_analyser = MonthAnalyser()
 
-week_analyser.run()
+# analyser.run()
+# week_analyser.run()
+month_analyser.run()
+
+

@@ -22,6 +22,6 @@ class Analyser:
                 self.ftx_controller.fetch_data(markets[user_input_market], timeframes[user_input_timeframe])
 
         for candle in self.ftx_controller.candles:
-            self.db_controller.add_candle(candle)
+            self.db_controller.add_entry(candle)
 
         self.db_controller.commit()

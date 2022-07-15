@@ -21,6 +21,8 @@ class WeekAnalysis(Base):
     symbol = Column(String(length=100))
     start_date = Column(DateTime)
     end_date = Column(DateTime)
+    open = Column(Float)
+    close = Column(Float)
     weekly_high = Column(Float)
     weekly_low = Column(Float)
     weekday_high = Column(String(length=16))
@@ -29,11 +31,20 @@ class WeekAnalysis(Base):
     weekday_volatility_low = Column(String(length=16))
     weekday_volume_high = Column(String(length=16))
     weekday_volume_low = Column(String(length=16))
+    volatility = Column(Float)
+    volume = Column(Float)
     trend = Column(String(length=16))
 
     def prepare(self):
         hash_string = self.exchange + self.symbol + str(self.start_date)
         self.hash = hashlib.md5(hash_string.encode()).hexdigest()
+
+        self.volatility = self.weekly_high - self.weekly_low
+
+        if self.open < self.close:
+            self.trend = 'Bullish'
+        else:
+            self.trend = 'Bearish'
 
 
 Base.metadata.create_all(

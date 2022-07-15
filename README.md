@@ -7,3 +7,8 @@
 
 Weekday Analysis
  - Average percentage (+/-)
+
+Usefull Examples
+ - https://marketsscience.com/daily_report_07Jun2022.html
+ - https://skew.com/
+ - https://www.dbnewswire.com/

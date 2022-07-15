@@ -1,6 +1,8 @@
 import hashlib
 
 from datetime import datetime
+
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 
@@ -27,8 +29,8 @@ class Candle(Base):
     volume = Column(Float)
     volatility = Column(Float)
     candle_size = Column(Float)
-    timestamp = Column(DateTime)
-    time_readable = Column(String(length=100))
+    timestamp = Column(Float)
+    time_readable = Column(DateTime)
 
     def prepare(self):
         hash_string = self.exchange + self.symbol + self.timeframe + str(self.timestamp)

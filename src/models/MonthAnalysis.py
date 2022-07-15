@@ -21,13 +21,30 @@ class MonthAnalysis(Base):
     symbol = Column(String(length=100))
     start_date = Column(DateTime)
     end_date = Column(DateTime)
+    open = Column(Float)
+    close = Column(Float)
     monthly_high = Column(Float)
     monthly_low = Column(Float)
+    week_number_high = Column(String(length=16))
+    week_number_low = Column(String(length=16))
+    week_number_volatility_high = Column(String(length=16))
+    week_number_volatility_low = Column(String(length=16))
+    week_number_volume_high = Column(String(length=16))
+    week_number_volume_low = Column(String(length=16))
+    volatility = Column(Float)
+    volume = Column(Float)
     trend = Column(String(length=16))
 
     def prepare(self):
         hash_string = self.exchange + self.symbol + str(self.start_date)
         self.hash = hashlib.md5(hash_string.encode()).hexdigest()
+
+        self.volatility = self.monthly_high - self.monthly_low
+
+        if self.open < self.close:
+            self.trend = 'Bullish'
+        else:
+            self.trend = 'Bearish'
 
 
 Base.metadata.create_all(

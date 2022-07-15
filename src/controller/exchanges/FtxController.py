@@ -1,5 +1,6 @@
 import ccxt
 from models.Candle import Candle
+from datetime import datetime
 
 
 class FtxController:
