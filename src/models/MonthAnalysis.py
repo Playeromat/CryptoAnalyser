@@ -41,10 +41,10 @@ class MonthAnalysis(Base):
 
         self.volatility = self.monthly_high - self.monthly_low
 
-        if self.open < self.close:
-            self.trend = 'Bullish'
-        else:
-            self.trend = 'Bearish'
+        # if self.open < self.close:
+        #     self.trend = 'Bullish'
+        # else:
+        #     self.trend = 'Bearish'
 
 
 Base.metadata.create_all(

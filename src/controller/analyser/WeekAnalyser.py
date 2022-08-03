@@ -9,8 +9,14 @@ class WeekAnalyser:
         self.db_controller = DbController()
         self.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
+        self.symbols = []
+
     def run(self):
-        candles = self.db_controller.get_candles(symbol='BTC/USD:USD', timeframe='1d')
+        for symbol in self.symbols:
+            self.analyse_symbol(symbol)
+
+    def analyse_symbol(self, symbol):
+        candles = self.db_controller.get_candles(symbol=symbol, timeframe='1d')
 
         current_week = None
         current_week_number = None
@@ -19,13 +25,15 @@ class WeekAnalyser:
         current_week_volume_high = 0
         current_week_volume_low = 0
 
+        weeks = []
+
         for candle in candles:
             candle_week_number = candle.time_readable.isocalendar()[1]
             candle_weekday_number = candle.time_readable.isocalendar()[2]
 
             if current_week_number != candle_week_number:
                 if current_week is not None:
-                    self.db_controller.add_entry(current_week)
+                    weeks.append(current_week)
 
                 current_week_number = candle_week_number
 
@@ -77,4 +85,7 @@ class WeekAnalyser:
                 current_week.close = candle.close
                 current_week.volume += candle.volume
 
-        self.db_controller.commit()
+        self.db_controller.add_entries(weeks)
+
+    def set_symbols(self, symbols):
+        self.symbols = [*symbols]

@@ -9,8 +9,14 @@ class MonthAnalyser:
     def __init__(self):
         self.db_controller = DbController()
 
+        self.symbols = []
+
     def run(self):
-        candles = self.db_controller.get_candles(symbol='BTC/USD:USD', timeframe='1w')
+        for symbol in self.symbols:
+            self.analyse_symbol(symbol)
+
+    def analyse_symbol(self, symbol):
+        candles = self.db_controller.get_candles(symbol=symbol, timeframe='1w')
 
         current_month = None
         current_month_number = None
@@ -19,13 +25,15 @@ class MonthAnalyser:
         current_month_volume_high = 0
         current_month_volume_low = 0
 
+        months = []
+
         for candle in candles:
             candle_year = candle.time_readable.isocalendar()[0]
             candle_month_number = candle.time_readable.month
 
             if current_month_number != candle_month_number:
                 if current_month is not None:
-                    self.db_controller.add_entry(current_month)
+                    months.append(current_month)
 
                 current_month_number = candle_month_number
 
@@ -65,4 +73,7 @@ class MonthAnalyser:
                 current_month.close = candle.close
                 current_month.volume += candle.volume
 
-        self.db_controller.commit()
+        self.db_controller.add_entries(months)
+
+    def set_symbols(self, symbols):
+        self.symbols = [*symbols]
