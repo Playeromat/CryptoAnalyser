@@ -3,17 +3,17 @@ from models.Candle import Candle
 from datetime import datetime
 
 
-class FtxController:
+class BinanceController:
     candles = []
 
     def __init__(self):
-        self.ftx = ccxt.ftx()
-        self.markets = self.ftx.load_markets()
-        self.exchange = 'FTX'
-        self.timeframes = self.ftx.timeframes
+        self.binance = ccxt.binance()
+        self.markets = self.binance.load_markets()
+        self.exchange = 'Binance'
+        self.timeframes = self.binance.timeframes
 
     def fetch_data(self, symbol, timeframe):
-        candles = self.ftx.fetch_ohlcv(symbol, timeframe=timeframe)
+        candles = self.binance.fetch_ohlcv(symbol, timeframe=timeframe)
 
         for candle in candles:
             timestamp = candle[0]

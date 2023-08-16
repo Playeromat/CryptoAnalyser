@@ -16,7 +16,7 @@ Base = declarative_base()
 
 
 class Candle(Base):
-    __tablename__ = 'ftx'
+    __tablename__ = 'binance'
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True, index=True)
     hash = Column(String(length=100), unique=True)
     exchange = Column(String(length=100))
