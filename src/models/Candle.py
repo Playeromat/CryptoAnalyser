@@ -9,7 +9,7 @@ Base = declarative_base()
 
 
 class Candle(Base):
-    __tablename__ = 'ftx'
+    __tablename__ = 'binance'
     id = sqlalchemy.Column(sqlalchemy.INT, primary_key=True, unique=True, autoincrement=True, index=True)
     hash = sqlalchemy.Column(sqlalchemy.String(length=100), unique=True)
     exchange = sqlalchemy.Column(sqlalchemy.String(length=100))
