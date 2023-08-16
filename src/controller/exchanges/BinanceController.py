@@ -9,7 +9,7 @@ class BinanceController:
     def __init__(self):
         self.binance = ccxt.binance()
         self.markets = self.binance.load_markets()
-        self.exchange = 'Binance'
+        self.exchange = 'binance'
         self.timeframes = self.binance.timeframes
 
     def fetch_data(self, symbol, timeframe):

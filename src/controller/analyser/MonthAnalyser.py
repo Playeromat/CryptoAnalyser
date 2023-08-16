@@ -46,7 +46,7 @@ class MonthAnalyser:
                 month_end = month_start + timedelta(days=monthrange(candle_year, candle_month_number)[1])
 
                 current_month = MonthAnalysis(
-                    exchange='ftx',
+                    exchange='binance',
                     symbol=candle.symbol,
                     start_date=month_start,
                     end_date=month_end,

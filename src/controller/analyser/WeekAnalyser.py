@@ -46,7 +46,7 @@ class WeekAnalyser:
                 week_end = week_start + timedelta(days=7) - timedelta(seconds=1)
 
                 current_week = WeekAnalysis(
-                    exchange='ftx',
+                    exchange='binance',
                     symbol=candle.symbol,
                     start_date=week_start,
                     end_date=week_end,
