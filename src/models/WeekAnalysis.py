@@ -41,11 +41,13 @@ class WeekAnalysis(Base):
 
         self.volatility = self.weekly_high - self.weekly_low
 
-        if self.open < self.close:
-            self.trend = 'Bullish'
+        if self.close:
+            if self.open < self.close:
+                self.trend = 'Bullish'
+            else:
+                self.trend = 'Bearish'
         else:
-            self.trend = 'Bearish'
-
+            self.trend = ''
 
 Base.metadata.create_all(
     create_engine("mysql+pymysql://crypto_analyser:crypto_analyser@crypto_analyser_mariadb:3306/crypto_analyser", echo=True, future=True)
